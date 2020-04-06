@@ -10,7 +10,7 @@ urlpatterns = [
     path('images/',views.images_post_list.as_view(),name="images"),
     path('docs/',views.docs_post_list.as_view(),name="docs"),
     path('<int:postId>/',views.post_detail.as_view(),name="detail"),
-    path('create/',views.CreatePost.as_view(),name="create"),
+    # path('create/',views.CreatePost.as_view(),name="create"),
     path('<slug:postQuery>/',views.search_posts.as_view(),name="create"),
 
 ]

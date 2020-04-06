@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
+from django.db import transaction
 # from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Post
 from .serializers import PostSerializer
@@ -18,6 +19,26 @@ class post_list(APIView):
 
         print(serializer.data)
         return Response({'data': serializer.data })
+
+    parser_classes = (MultiPartParser, FormParser)
+
+    @transaction.atomic
+    def post(self,request):
+        if request.method == "POST":
+            serializer = PostSerializer(data=request.data)
+            print(request.data)
+            if serializer.is_valid():
+                if validate(request.data):
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+                else:
+                    print("works")
+
+
+
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['GET', 'POST'])
 class videos_post_list(APIView):
@@ -129,23 +150,4 @@ def validate(serializer):
 
 
 
-class CreatePost(APIView):
-
-    parser_classes = (MultiPartParser, FormParser)
-
-    def post(self,request):
-        if request.method == "POST":
-            serializer = PostSerializer(data=request.data)
-            print(request.data)
-            if serializer.is_valid():
-                if validate(request.data):
-                    serializer.save()
-                    return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-                else:
-                    print("works")
-
-
-
-
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# class CreatePost(APIView):
