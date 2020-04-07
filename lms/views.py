@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from django.db import transaction
 # from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Post
-from .serializers import PostSerializer
+from .models.post_models import Post
+from .serializers.post_serializers import PostSerializer,UserSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 
 
@@ -98,10 +98,12 @@ class post_detail(APIView):
 
 class search_posts(APIView):
     def get(self,request,postQuery):
+        print("bleh")
         if request.method == "GET":
             data = []
             if "%20" in postQuery:
                 postQuery = postQuery.replace("%20"," ")
+            print(postQuery)
             data = Post.objects.filter(Name__contains=postQuery) | Post.objects.filter(Description__contains=postQuery) |  Post.objects.filter(Author__contains=postQuery)
             serializer = PostSerializer(data,context={'request': request} ,many=True);
 
@@ -147,7 +149,3 @@ def validate(serializer):
     except:
         print("7")
         return True
-
-
-
-# class CreatePost(APIView):
