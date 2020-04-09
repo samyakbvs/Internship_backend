@@ -149,3 +149,14 @@ def validate(serializer):
     except:
         print("7")
         return True
+
+class login(APIView):
+
+    parser_classes = (MultiPartParser, FormParser)
+    def post(self,request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            print(serializer.data)
+        else:
+            print("bleh")
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

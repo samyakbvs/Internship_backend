@@ -5,12 +5,13 @@ from django.conf import settings
 from lms import views
 
 urlpatterns = [
+    path('login/',views.login.as_view(),name="login"),
     path('',views.post_list.as_view(),name="home"),
     path('videos/',views.videos_post_list.as_view(),name="videos"),
     path('images/',views.images_post_list.as_view(),name="images"),
     path('docs/',views.docs_post_list.as_view(),name="docs"),
     path('<int:postId>/',views.post_detail.as_view(),name="detail"),
     # path('create/',views.CreatePost.as_view(),name="create"),
-    path('<slug:postQuery>/',views.search_posts.as_view(),name="create"),
+    path('<str:postQuery>/',views.search_posts.as_view(),name="create"),
 
 ]
