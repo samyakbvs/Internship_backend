@@ -3,6 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 from django.db import transaction
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 # from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models.post_models import Post
 from .serializers.post_serializers import PostSerializer,UserSerializer
@@ -23,6 +25,7 @@ class post_list(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     @transaction.atomic
+
     def post(self,request):
         if request.method == "POST":
             serializer = PostSerializer(data=request.data)
@@ -42,6 +45,7 @@ class post_list(APIView):
 
 # @api_view(['GET', 'POST'])
 class videos_post_list(APIView):
+
     def get(self,request):
         if request.method == "GET":
             data = []
@@ -54,6 +58,7 @@ class videos_post_list(APIView):
 
 # @api_view(['GET', 'POST'])
 class images_post_list(APIView):
+
     def get(self,request):
         if request.method == "GET":
             data = []
@@ -68,6 +73,7 @@ class images_post_list(APIView):
 
 # @api_view(['GET', 'POST'])
 class docs_post_list(APIView):
+
     def get(sefl,request):
         if request.method == "GET":
             data = []
@@ -83,6 +89,7 @@ class docs_post_list(APIView):
 # @api_view(['GET', 'POST'])
 
 class post_detail(APIView):
+
     def get(self,request,postId):
         if request.method == "GET":
             data = []
@@ -97,6 +104,7 @@ class post_detail(APIView):
 # @api_view(['GET', 'POST'])
 
 class search_posts(APIView):
+
     def get(self,request,postQuery):
         print("bleh")
         if request.method == "GET":
@@ -150,13 +158,10 @@ def validate(serializer):
         print("7")
         return True
 
-class login(APIView):
-
-    parser_classes = (MultiPartParser, FormParser)
-    def post(self,request):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            print(serializer.data)
-        else:
-            print("bleh")
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+# class login(APIView):
+#     parser_classes = (MultiPartParser, FormParser)
+#     def post(self,request):
+#         user = auth.authenticate(username=request.data['username'],password=request.data['password'])
+#         if user is not None:
+#             auth.login(request, user)
+#         return Response(request.data)

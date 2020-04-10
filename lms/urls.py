@@ -5,7 +5,6 @@ from django.conf import settings
 from lms import views
 
 urlpatterns = [
-    path('login/',views.login.as_view(),name="login"),
     path('',views.post_list.as_view(),name="home"),
     path('videos/',views.videos_post_list.as_view(),name="videos"),
     path('images/',views.images_post_list.as_view(),name="images"),
