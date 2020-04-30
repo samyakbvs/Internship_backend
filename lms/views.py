@@ -29,7 +29,6 @@ class post_list(APIView):
     def post(self,request):
         if request.method == "POST":
             serializer = PostSerializer(data=request.data)
-            print(request.data)
             if serializer.is_valid():
                 if validate(request.data):
                     serializer.save()
@@ -106,7 +105,7 @@ class post_detail(APIView):
 class search_posts(APIView):
 
     def get(self,request,postQuery):
-        print("bleh")
+        print(postQuery)
         if request.method == "GET":
             data = []
             if "%20" in postQuery:
@@ -125,12 +124,12 @@ class search_posts(APIView):
 def validate(serializer):
 
 
-    Image_list = [None, "png", "jpg", "jpeg", "svg", "gif"]
-    if 'Video' in serializer and str(serializer['Video']).split(".")[-1]  not in Image_list:
+    Video_list = [None, "mkv","mp4","avi","mov"]
+    if 'Video' in serializer and str(serializer['Video']).split(".")[-1]  not in Video_list:
         print("1")
         return False
 
-    Video_list = [None, "mp4", "jpg", "jpeg", "svg", "gif"]
+    Image_list = [None, "jpg", "jpeg", "svg", "gif"]
     if 'Image' in serializer and str(serializer['Image']).split(".")[-1]  not in Image_list:
         print("2")
         return False
@@ -145,7 +144,7 @@ def validate(serializer):
         print("4")
         return False
 
-    if not serializer['Name'].replace(" ","").isalnum() or not serializer['Author'].isalnum():
+    if not serializer['Name'].replace(" ","").isalnum() or not serializer['Author'].replace(" ","").isalnum():
         print("5")
         return False
     try:

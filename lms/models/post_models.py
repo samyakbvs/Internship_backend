@@ -4,8 +4,8 @@ from django.db import models
 
 class Post(models.Model):
     Name = models.CharField(max_length = 264)
-    Init_time = models.DateTimeField()
-    Description = models.TextField()
+    Init_time = models.DateTimeField(auto_now_add=True)
+    Description = models.TextField(max_length=1000)
     Author = models.CharField(max_length = 264)
     Image = models.FileField(blank=True)
     Video = models.FileField(blank=True)

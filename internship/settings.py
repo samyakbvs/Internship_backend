@@ -97,6 +97,9 @@ DATABASES = {
     }
 }
 
+REST_AUTH_SERIALIZERS = {
+    'TOKEN_SERIALIZER': 'lms.serializers.post_serializers.TokenSerializer',
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
